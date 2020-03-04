@@ -121,65 +121,65 @@
 		</operation>
 	</file>
 
-	<file path="admin/view/template/catalog/product_list.twig">
+	<file path="admin/view/template/catalog/product_list.tpl">
 		<operation>
 			<search><![CDATA[
-				<button type="button" form="form-product" formaction="{{ delete }}" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form-product').submit() : false;"><i class="fa fa-trash-o"></i></button>
+				<button type="button" data-toggle="tooltip" title="<?php echo $button_delete; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-product').submit() : false;"><i class="fa fa-trash-o"></i></button>
 			]]></search>
 			<add position="after"><![CDATA[
-				<form action="{{ check_missing_product_images }}" method="post" enctype="multipart/form-data" id="form-check-missing-product-images" style="display: none;"></form>
-				<button type="button" data-toggle="tooltip" title="{{ text_check_missing_product_images }}" class="btn btn-danger" onclick="$('#form-check-missing-product-images').submit()">{{ text_check_missing_product_images }}</button>
-				<form action="{{ check_zero_product_images }}" method="post" enctype="multipart/form-data" id="form-check-zero-product-images" style="display: none;"></form>
-				<button type="button" data-toggle="tooltip" title="{{ text_check_zero_product_images }}" class="btn btn-danger" onclick="$('#form-check-zero-product-images').submit()">{{ text_check_zero_product_images }}</button>
+				<form action="<?php echo $check_missing_product_images; ?>" method="post" enctype="multipart/form-data" id="form-check-missing-product-images" style="display: none;"></form>
+				<button type="button" data-toggle="tooltip" title="<?php echo $text_check_missing_product_images; ?>" class="btn btn-danger" onclick="$('#form-check-missing-product-images').submit()"><?php echo $text_check_missing_product_images; ?></button>
+				<form action="<?php echo $check_zero_product_images; ?>" method="post" enctype="multipart/form-data" id="form-check-zero-product-images" style="display: none;"></form>
+				<button type="button" data-toggle="tooltip" title="<?php echo $text_check_zero_product_images; ?>" class="btn btn-danger" onclick="$('#form-check-zero-product-images').submit()"><?php echo $text_check_zero_product_images; ?></button>
 			]]></add>
 		</operation>
 		<operation>
 			<search><![CDATA[
-				{{ error_warning }}
+				<?php echo $error_warning; ?>
 			]]></search>
 			<add position="after" offset="1"><![CDATA[
-				{% if missing_images %}
+				<?php if (isset($missing_images)) { ?>
 					<br /><br />
-					{{ text_check_missing_product_images_count }}<br />
-					{{ text_check_missing_product_images_products_count }}<br />
-					{{ text_check_missing_product_images_product_images_count }}
+					<?php echo $text_check_missing_product_images_count; ?><br />
+					<?php echo $text_check_missing_product_images_products_count; ?><br />
+					<?php echo $text_check_missing_product_images_product_images_count; ?>
 					<br /><br />
-					{{ text_check_missing_product_images_list }}
+					<?php echo $text_check_missing_product_images_list; ?>
 					<br /><strong>
-					{% for image in missing_images %}
-						<br />{{ image }}
-					{% endfor %}
+					<?php foreach ($missing_images as $image) { ?>
+						<br /><?php echo $image; ?>
+					<?php }	?>
 					</strong><br /><br />
-					<form action="{{ clear_missing_product_images }}" method="post" enctype="multipart/form-data" id="form-clear-missing-product-images" style="display: none;">
-						<input type="text" name="missing_data[product_images]" value="{{ missing_product_images }}" hidden>
-						<input type="text" name="missing_data[products]" value="{{ missing_products }}" hidden>
+					<form action="<?php echo $clear_missing_product_images; ?>" method="post" enctype="multipart/form-data" id="form-clear-missing-product-images" style="display: none;">
+						<input type="text" name="missing_data[product_images]" value="<?php echo $missing_product_images; ?>" hidden>
+						<input type="text" name="missing_data[products]" value="<?php echo $missing_products; ?>" hidden>
 					</form>
-					<button type="button" data-toggle="tooltip" title="{{ text_clear_missing_product_images }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form-clear-missing-product-images').submit() : false;">{{ text_clear_missing_product_images }}</button>
-				{% endif %}
-				{% if zero_images %}
+					<button type="button" data-toggle="tooltip" title="<?php echo $text_clear_missing_product_images; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-clear-missing-product-images').submit() : false;"><?php echo $text_clear_missing_product_images; ?></button>
+				<?php }	?>
+				<?php if (isset($zero_images)) { ?>
 					<br /><br />
-					{{ text_check_zero_product_images_count }}<br />
-					{{ text_check_zero_product_images_products_count }}<br />
-					{{ text_check_zero_product_images_product_images_count }}
+					<?php echo $text_check_zero_product_images_count; ?><br />
+					<?php echo $text_check_zero_product_images_products_count; ?><br />
+					<?php echo $text_check_zero_product_images_product_images_count; ?>
 					<br /><br />
-					{{ text_check_zero_product_images_list }}
+					<?php echo $text_check_zero_product_images_list; ?>
 					<br /><strong>
-					{% for image_zero in zero_images %}
-						<br />{{ image_zero }}
-					{% endfor %}
+					<?php foreach ($zero_images as $image_zero) { ?>
+						<br /><?php echo $image_zero; ?>
+					<?php }	?>
 					</strong><br /><br />
-					<form action="{{ clear_zero_product_images }}" method="post" enctype="multipart/form-data" id="form-clear-zero-product-images" style="display: none;">
-						<input type="text" name="zero_data[product_images_zero]" value="{{ zero_product_images }}" hidden>
-						<input type="text" name="zero_data[products_zero]" value="{{ zero_products }}" hidden>
+					<form action="<?php echo $clear_zero_product_images; ?>" method="post" enctype="multipart/form-data" id="form-clear-zero-product-images" style="display: none;">
+						<input type="text" name="zero_data[product_images_zero]" value="<?php echo $zero_product_images; ?>" hidden>
+						<input type="text" name="zero_data[products_zero]" value="<?php echo $zero_products; ?>" hidden>
 					</form>
-					<button type="button" data-toggle="tooltip" title="{{ text_clear_zero_product_images }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form-clear-zero-product-images').submit() : false;">{{ text_clear_zero_product_images }}</button>
-				{% endif %}
+					<button type="button" data-toggle="tooltip" title="<?php echo $text_clear_zero_product_images; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-clear-zero-product-images').submit() : false;"><?php echo $text_clear_zero_product_images; ?></button>
+				<?php }	?>
 			]]></add>
 		</operation>		
 	</file>
 
 	<file path="admin/controller/catalog/product.php">
-		<!--<operation>
+		<operation>
 			<search><![CDATA[
 				$data['heading_title'] = $this->language->get('heading_title');
 			]]></search>
@@ -187,8 +187,10 @@
 
 				$data['text_check_missing_product_images'] = $this->language->get('text_check_missing_product_images');
 				$data['text_clear_missing_product_images'] = $this->language->get('text_clear_missing_product_images');
+				$data['text_check_zero_product_images'] = $this->language->get('text_check_zero_product_images');
+				$data['text_clear_zero_product_images'] = $this->language->get('text_clear_zero_product_images');
 			]]></add>
-		</operation>-->
+		</operation>
 		<operation>
 			<search><![CDATA[
 				protected function getList() {
@@ -275,10 +277,10 @@
 					}
 				}
 
-				$data['check_missing_product_images'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . '&check_missing_product_images=1', 'SSL');
-				$data['check_zero_product_images'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . '&check_zero_product_images=1', 'SSL');
-				$data['clear_missing_product_images'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . '&clear_missing_product_images=1', 'SSL');
-				$data['clear_zero_product_images'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . '&clear_zero_product_images=1', 'SSL');
+				$data['check_missing_product_images'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&check_missing_product_images=1', 'SSL');
+				$data['check_zero_product_images'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&check_zero_product_images=1', 'SSL');
+				$data['clear_missing_product_images'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&clear_missing_product_images=1', 'SSL');
+				$data['clear_zero_product_images'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&clear_zero_product_images=1', 'SSL');
 
 			]]></add>
 		</operation>		
