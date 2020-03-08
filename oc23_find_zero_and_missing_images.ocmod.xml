@@ -83,7 +83,7 @@
 
 				public function clearMissingImages($products, $product_images = null) {
 					if (is_array($products) && count($products) > 0) {
-						$query = $this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '' WHERE `product_id` IN $this->db->escape((" . implode(', ', $products) . "));");
+						$query = $this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '' WHERE `product_id` IN (" . $this->db->escape(implode(', ', $products)) . ");");
 
 						if ($product_images == null) {
 							return true;
@@ -91,7 +91,7 @@
 					}
 
 					if (is_array($product_images) && count($product_images) > 0) {
-						$query = $this->db->query("DELETE FROM `" . DB_PREFIX . "product_image` WHERE `product_image_id` IN $this->db->escape((" . implode(', ', $product_images) . "));");
+						$query = $this->db->query("DELETE FROM `" . DB_PREFIX . "product_image` WHERE `product_image_id` IN (" . $this->db->escape(implode(', ', $product_images)) . ");");
 
 						return true;
 					}
@@ -101,7 +101,7 @@
 
 				public function clearZeroImages($products_zero, $product_images_zero = null) {
 					if (is_array($products_zero) && count($products_zero) > 0) {
-						$query = $this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '' WHERE `product_id` IN $this->db->escape((" . implode(', ', $products_zero) . "));");
+						$query = $this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '' WHERE `product_id` IN (" . $this->db->escape(implode(', ', $products_zero)) .");");
 
 						if ($product_images_zero == null) {
 							return true;
@@ -109,7 +109,7 @@
 					}
 
 					if (is_array($product_images_zero) && count($product_images_zero) > 0) {
-						$query = $this->db->query("DELETE FROM `" . DB_PREFIX . "product_image` WHERE `product_image_id` IN $this->db->escape((" . implode(', ', $product_images_zero) . "));");
+						$query = $this->db->query("DELETE FROM `" . DB_PREFIX . "product_image` WHERE `product_image_id` IN (" . $this->db->escape(implode(', ', $product_images_zero)) .");");
 
 						return true;
 					}
@@ -124,7 +124,7 @@
 	<file path="admin/view/template/catalog/product_list.tpl">
 		<operation>
 			<search><![CDATA[
-				<button type="button" data-toggle="tooltip" title="<?php echo $button_delete; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-product').submit() : false;"><i class="fa fa-trash-o"></i></button>
+				<button type="button" data-toggle="tooltip" title="<?php echo $button_delete; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm_command; ?>') ? $('#form-product').submit() : false;"><i class="fa fa-trash-o"></i></button>
 			]]></search>
 			<add position="after"><![CDATA[
 				<form action="<?php echo $check_missing_product_images; ?>" method="post" enctype="multipart/form-data" id="form-check-missing-product-images" style="display: none;"></form>
@@ -154,7 +154,7 @@
 						<input type="text" name="missing_data[product_images]" value="<?php echo $missing_product_images; ?>" hidden>
 						<input type="text" name="missing_data[products]" value="<?php echo $missing_products; ?>" hidden>
 					</form>
-					<button type="button" data-toggle="tooltip" title="<?php echo $text_clear_missing_product_images; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-clear-missing-product-images').submit() : false;"><?php echo $text_clear_missing_product_images; ?></button>
+					<button type="button" data-toggle="tooltip" title="<?php echo $text_clear_missing_product_images; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm_command; ?>') ? $('#form-clear-missing-product-images').submit() : false;"><?php echo $text_clear_missing_product_images; ?></button>
 				<?php }	?>
 				<?php if (isset($zero_images)) { ?>
 					<br /><br />
@@ -313,7 +313,9 @@
 				$_['text_check_zero_product_images_product_images_count'] = 'Количество затронутых изображений товаров: ';
 				$_['text_clear_zero_product_images'] = 'Очистить нулевые изображения';
 				$_['text_clear_zero_product_images_success'] = 'Нулевые ссылки на изображения удалены!';
-				$_['text_clear_zero_product_images_warning'] = 'Ошибка при выполнении запроса...';				
+				$_['text_clear_zero_product_images_warning'] = 'Ошибка при выполнении запроса...';		
+
+				$_['text_confirm_command'] = 'Вы точно хотите открепить изображение от товара?';		
 			]]></add>
 		</operation>
 	</file>
@@ -346,6 +348,8 @@
 				$_['text_clear_zero_product_images'] = 'To clear the zero image';
 				$_['text_clear_zero_product_images_success'] = 'Zero image removed!';
 				$_['text_clear_zero_product_images_warning'] = 'Error executing query...';	
+
+				$_['text_confirm_command'] = 'Are you sure to detach the image from the product?';
 			]]></add>
 		</operation>
 	</file>
