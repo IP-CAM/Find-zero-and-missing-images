@@ -104,7 +104,7 @@
 				public function clearZeroImages($products_zero, $product_images_zero = null) {
 					
 					if (is_array($products_zero) && count($products_zero) > 0) {
-						$query = $this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '' WHERE `product_id` IN (" . $this->db->escape(implode(', ', $products_zero)) . "));");
+						$query = $this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '' WHERE `product_id` IN (" . $this->db->escape(implode(', ', $products_zero)) . ");");
 
 						if ($product_images_zero == null) {
 							return true;
@@ -113,7 +113,7 @@
 					
 					
 					if (is_array($product_images_zero) && count($product_images_zero) > 0) {
-						$query = $this->db->query("DELETE FROM `" . DB_PREFIX . "product_image` WHERE `product_image_id` IN (" . $this->db->escape(implode(', ', $product_images_zero)) . "));");
+						$query = $this->db->query("DELETE FROM `" . DB_PREFIX . "product_image` WHERE `product_image_id` IN (" . $this->db->escape(implode(', ', $product_images_zero)) . ");");
 
 						return true;
 					}
