@@ -84,7 +84,7 @@
 				public function clearMissingImages($products, $product_images = null) {
 					
 					if (is_array($products) && count($products) > 0) {
-						$query = $this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '' WHERE `product_id` IN (" . $this->db->escape(implode(', ', $products)) . "))");
+						$query = $this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '' WHERE `product_id` IN (" . $this->db->escape(implode(', ', $products)) . ")");
 
 						if ($product_images == null) {
 							return true;
