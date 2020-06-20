@@ -149,12 +149,27 @@
 					{{ text_check_missing_product_images_products_count }}<br />
 					{{ text_check_missing_product_images_product_images_count }}
 					<br /><br />
-					{{ text_check_missing_product_images_list }}
-					<br /><strong>
-					{% for image in missing_images %}
-						<br />{{ image }}
-					{% endfor %}
-					</strong><br /><br />
+					<button type="button" title="{{ text_check_missing_product_id_list }}" class="btn btn-danger" id="content_toggle_ms_id">{{ text_check_missing_product_id_list }}</button>
+					<div class="content_block_ms_id" style="display: none;">
+						<br /><strong>
+						{% for product_id in missing_products_id %}
+							<br /><a href="{{ missing_products_id_link }}{{ product_id }}" target="_blank" >{{ missing_products_id_link }}{{ product_id }}</a>
+						{% endfor %}
+						</strong><br /><br />
+					</div>
+					<br/>
+					<br/>
+					<button type="button" title="{{ text_check_missing_product_images_list }}" class="btn btn-danger" id="content_toggle_ms_im">{{ text_check_missing_product_images_list }}</button>
+					<div class="content_block_ms_im" style="display: none;">
+						<br /><strong>
+						{% for image in missing_images %}
+							<br />{{ image }}
+						{% endfor %}
+						</strong><br /><br />
+					</div>
+					<br/>
+					<br/>
+					<hr>
 					<form action="{{ clear_missing_product_images }}" method="post" enctype="multipart/form-data" id="form-clear-missing-product-images" style="display: none;">
 						<input type="text" name="missing_data[product_images]" value="{{ missing_product_images }}" hidden>
 						<input type="text" name="missing_data[products]" value="{{ missing_products }}" hidden>
@@ -179,6 +194,30 @@
 					</form>
 					<button type="button" data-toggle="tooltip" title="{{ text_clear_zero_product_images }}" class="btn btn-danger" onclick="confirm('{{ text_confirm_command }}') ? $('#form-clear-zero-product-images').submit() : false;">{{ text_clear_zero_product_images }}</button>
 				{% endif %}
+				<script>
+				$(document).ready(function(){
+					$('#content_toggle_ms_id').click(function(){
+						$('.content_block_ms_id').slideToggle(300, function(){
+							if ($(this).is(':hidden')) {
+								$('#content_toggle_ms_id').html('{{ text_check_missing_product_id_list }}');
+							} else {
+								$('#content_toggle_ms_id').html('Скрыть текст');
+							}							
+						});
+						return false;
+					});
+					$('#content_toggle_ms_im').click(function(){
+						$('.content_block_ms_im').slideToggle(300, function(){
+							if ($(this).is(':hidden')) {
+								$('#content_toggle_ms_im').html('{{ text_check_missing_product_images_list }}');
+							} else {
+								$('#content_toggle_ms_im').html('Скрыть текст');
+							}							
+						});
+						return false;
+					});
+				});
+				</script>
 			]]></add>
 		</operation>		
 	</file>
@@ -213,8 +252,10 @@
 						$data['text_check_missing_product_images_count'] = $this->language->get('text_check_missing_product_images_count') . $images_count;
 						$data['text_check_missing_product_images_products_count'] = $this->language->get('text_check_missing_product_images_products_count') . $products_count;
 						$data['text_check_missing_product_images_product_images_count'] = $this->language->get('text_check_missing_product_images_product_images_count') . $product_images_count;
-
+						
 						$data['missing_images'] = $missing_data['images'];
+						$data['missing_products_id_link'] = $this->url->link('catalog/product/edit', 'user_token=' . $this->session->data['user_token'] . '&product_id=', 'SSL');
+						$data['missing_products_id'] = $missing_data['products'];
 						$data['missing_products'] = urlencode(serialize($missing_data['products']));
 						$data['missing_product_images'] = urlencode(serialize($missing_data['product_images']));
 					} else {
@@ -238,6 +279,8 @@
 						$data['text_check_zero_product_images_product_images_count'] = $this->language->get('text_check_zero_product_images_product_images_count') . $product_images_zero_count;
 
 						$data['zero_images'] = $zero_data['images_zero'];
+						$data['zero_products_id_link'] = $this->url->link('catalog/product/edit', 'user_token=' . $this->session->data['user_token'] . '&product_id=', 'SSL');
+						$data['zero_products_id'] = $zero_data['products'];
 						$data['zero_products'] = urlencode(serialize($zero_data['products_zero']));
 						$data['zero_product_images'] = urlencode(serialize($zero_data['product_images_zero']));
 					} else {
@@ -298,7 +341,8 @@
 				
 				$_['text_check_missing_product_images'] = 'Пропавшие изображения';
 				$_['text_check_missing_product_images_warning'] = 'Обнаружены пропавшие изображения!';
-				$_['text_check_missing_product_images_list'] = 'ССылки на пропавшие изображения товаров: ';
+				$_['text_check_missing_product_images_list'] = 'Ссылки на пропавшие изображения товаров: ';
+				$_['text_check_missing_product_id_list'] = 'Ссылки на товары с пропавшими изображениями: ';
 				$_['text_check_missing_product_images_success'] = 'Все изображения в порядке!';
 				$_['text_check_missing_product_images_count'] = 'Общее количество проверенных изображений: ';
 				$_['text_check_missing_product_images_products_count'] = 'Количество затронутых товаров: ';
