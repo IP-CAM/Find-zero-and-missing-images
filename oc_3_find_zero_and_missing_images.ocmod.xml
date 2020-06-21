@@ -182,12 +182,29 @@
 					{{ text_check_zero_product_images_products_count }}<br />
 					{{ text_check_zero_product_images_product_images_count }}
 					<br /><br />
-					{{ text_check_zero_product_images_list }}
+					<button type="button" title="{{ text_check_zero_product_id_list }}" class="btn btn-danger" id="content_toggle_zr_id">{{ text_check_zero_product_id_list }}</button>
+					<div class="content_block_zr_id" style="display: none;">
+					<br /><strong>
+					{% for product_id_zero in zero_products_id %}
+						<br /><a href="{{ zero_products_id_link }}{{ product_id_zero }}" target="_blank" >{{ zero_products_id_link }}{{ product_id_zero }}</a>
+					{% endfor %}
+					</strong><br /><br />
+					</div>
+					<br/>
+					<br/>
+					<br/>
+					<button type="button" title="{{ text_check_zero_product_images_list }}" class="btn btn-danger" id="content_toggle_zr_im">{{ text_check_zero_product_images_list }}</button>
+					<div class="content_block_zr_im" style="display: none;">
 					<br /><strong>
 					{% for image_zero in zero_images %}
 						<br />{{ image_zero }}
 					{% endfor %}
 					</strong><br /><br />
+					</div>
+					<br/>
+					<br/>
+					<br/>
+					<hr>
 					<form action="{{ clear_zero_product_images }}" method="post" enctype="multipart/form-data" id="form-clear-zero-product-images" style="display: none;">
 						<input type="text" name="zero_data[product_images_zero]" value="{{ zero_product_images }}" hidden>
 						<input type="text" name="zero_data[products_zero]" value="{{ zero_products }}" hidden>
@@ -201,7 +218,7 @@
 							if ($(this).is(':hidden')) {
 								$('#content_toggle_ms_id').html('{{ text_check_missing_product_id_list }}');
 							} else {
-								$('#content_toggle_ms_id').html('Скрыть текст');
+								$('#content_toggle_ms_id').html('{{ text_hide }}');
 							}							
 						});
 						return false;
@@ -211,7 +228,27 @@
 							if ($(this).is(':hidden')) {
 								$('#content_toggle_ms_im').html('{{ text_check_missing_product_images_list }}');
 							} else {
-								$('#content_toggle_ms_im').html('Скрыть текст');
+								$('#content_toggle_ms_im').html('{{ text_hide }}');
+							}							
+						});
+						return false;
+					});
+					$('#content_toggle_zr_id').click(function(){
+						$('.content_block_zr_id').slideToggle(300, function(){
+							if ($(this).is(':hidden')) {
+								$('#content_toggle_zr_id').html('{{ text_check_zero_product_id_list }}');
+							} else {
+								$('#content_toggle_zr_id').html('{{ text_hide }}');
+							}							
+						});
+						return false;
+					});
+					$('#content_toggle_zr_im').click(function(){
+						$('.content_block_zr_im').slideToggle(300, function(){
+							if ($(this).is(':hidden')) {
+								$('#content_toggle_zr_im').html('{{ text_check_zero_product_images_list }}');
+							} else {
+								$('#content_toggle_zr_im').html('{{ text_hide }}');
 							}							
 						});
 						return false;
@@ -353,7 +390,8 @@
 
 				$_['text_check_zero_product_images'] = 'Нулевые изображения';
 				$_['text_check_zero_product_images_warning'] = 'Обнаружены изображения с размером 0кб !';
-				$_['text_check_zero_product_images_list'] = 'Ссылки на изображения товаров с 0кб: ';
+				$_['text_check_zero_product_images_list'] = 'Ссылки на изображения товаров с размером - 0кб: ';
+				$_['text_check_zero_product_id_list'] = 'Ссылки на товары с изображениями размером - 0кб: ';
 				$_['text_check_zero_product_images_success'] = 'Все изображения в порядке!';
 				$_['text_check_zero_product_images_count'] = 'Общее количество изображений: ';
 				$_['text_check_zero_product_images_products_count'] = 'Количество затронутых товаров: ';
@@ -362,6 +400,11 @@
 				$_['text_clear_zero_product_images_success'] = 'Нулевые ссылки на изображения удалены!';
 				$_['text_clear_zero_product_images_warning'] = 'Ошибка при выполнении запроса...';	
 
+				//help
+				$_['help_product_id'] = 'Вы можете нажать на ссылку и перейти во вкладку редактирования товара';
+
+				//command
+				$_['text_hide'] = 'Скрыть текст';
 				$_['text_confirm_command'] = 'Вы точно хотите открепить изображение от товара?';			
 			]]></add>
 		</operation>
@@ -373,10 +416,12 @@
 				// Text 
 			]]></search>
 			<add position="after"><![CDATA[
-				
+				// Find missing and zero images
+
 				$_['text_check_missing_product_images'] = 'Missing image';
 				$_['text_check_missing_product_images_warning'] = 'Discovered missing image!';
 				$_['text_check_missing_product_images_list'] = 'Links to missing images: ';
+				$_['text_check_missing_product_id_list'] = 'Products links with missing images: ';
 				$_['text_check_missing_product_images_success'] = 'All the images in order!';
 				$_['text_check_missing_product_images_count'] = 'Total images count: ';
 				$_['text_check_missing_product_images_products_count'] = 'Total product count: ';
@@ -387,7 +432,8 @@
 
 				$_['text_check_zero_product_images'] = 'Zero image';
 				$_['text_check_zero_product_images_warning'] = 'Modification found zero image sizes !';
-				$_['text_check_zero_product_images_list'] = 'Links to images with 0kb: ';
+				$_['text_check_zero_product_images_list'] = 'Links to images with size - 0kb: ';
+				$_['text_check_zero_product_id_list'] = 'Products links with size - 0kb: ';
 				$_['text_check_zero_product_images_success'] = 'All the images in order!';
 				$_['text_check_zero_product_images_count'] = 'Total images count: ';
 				$_['text_check_zero_product_images_products_count'] = 'Total product count: ';
@@ -396,6 +442,12 @@
 				$_['text_clear_zero_product_images_success'] = 'Zero image removed!';
 				$_['text_clear_zero_product_images_warning'] = 'Error executing query...';	
 
+				//help
+				$_['help_product_id'] = 'Вы можете нажать на ссылку и перейти во вкладку редактирования товара';
+				
+
+				// command
+				$_['text_hide'] = 'Hide list';
 				$_['text_confirm_command'] = 'Are you sure to detach the image from the product?';
 			]]></add>
 		</operation>
